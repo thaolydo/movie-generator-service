@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# This script is for deploying given lambda to developer personal account.
+# Prerequisite: AWS CLI credentials for profile cecs491b-dev exists
+
+if [ $# -lt 1 ]; then
+    echo "Usage:"
+    echo "\tnpm run update -- <handler-file-name>"
+    echo "Sample Usage:"
+    echo "\tnpm run update -- get-movies"
+    exit 1
+fi
+
+handlerFileName=$1
+stage=$USER
+
+if [ $# -ge 2 ]; then
+    stage=$2
+fi
+
+profile="cecs491b-dev"
+outFile="dist/index.js"
+zipFile="dist/lambda.zip"
+lambdaName="$(echo "$handlerFileName" | awk -F"-" '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) substr($i,2)}} 1' OFS="")-$stage"
+echo "lambda name = $lambdaName"
+
+# Clean up
+rm -rf "$zipFile"
+
+# Find file name
+filePath=$(find src -name "$handlerFileName.handler.ts")
+
+# Build the handler to index.js
+./node_modules/esbuild/bin/esbuild --bundle "$filePath" --outfile="$outFile" --platform=node
+
+# Zip file for uploading to lambda
+zip -j "$zipFile" "$outFile"
+
+# Upload the zip to lambda
+aws lambda update-function-code \
+    --function-name "$lambdaName" \
+    --zip-file "fileb://$zipFile" \
+    --profile="$profile"
