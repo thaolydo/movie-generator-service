@@ -1,6 +1,6 @@
 import { Construct, Stage, StageProps } from '@aws-cdk/core';
-import { AuthStack } from './auth-stack';
 import { StageConfig } from './stage-config';
+import { LambdaStack } from './service-stack/lambda-stack';
 
 export class MovieGeneratorService extends Stage {
 
@@ -8,8 +8,9 @@ export class MovieGeneratorService extends Stage {
         super(scope, id, props);
 
         const stageName = stageConfig.stageName;
-        const authStack = new AuthStack(this, `auth-stack-${stageName}`, stageConfig, {
-            stackName: `AuthStack-${stageName}`,
+
+        const lambdaStack = new LambdaStack(this, `lambda-stack-${stageName}`, stageConfig, {
+            stackName: `LambdaStack-${stageName}`,
             env: props?.env
         });
 
