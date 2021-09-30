@@ -3,20 +3,16 @@
 # This script is for deploying given lambda to developer personal account.
 # Prerequisite: AWS CLI credentials for profile cecs491b-dev exists
 
-if [ $# -lt 1 ]; then
+if [ $# -lt 2 ]; then
     echo "Usage:"
-    echo "\tnpm run update -- <handler-file-name>"
+    echo "  npm run update -- <handler-file-name> <username>"
     echo "Sample Usage:"
-    echo "\tnpm run update -- get-movies"
+    echo "  npm run update -- get-watchlist ly"
     exit 1
 fi
 
 handlerFileName=$1
-stage=$USER
-
-if [ $# -ge 2 ]; then
-    stage=$2
-fi
+stage=$2
 
 profile="cecs491b-dev"
 outFile="dist/index.js"
