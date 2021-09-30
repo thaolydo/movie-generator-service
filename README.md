@@ -1,14 +1,14 @@
-# Welcome to your CDK TypeScript project!
+# Local Dev
+## Setup
+1. Install AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
+1. Configure AWS CLI:
+   - `aws configure --profile cecs491b-dev`
+   - Enter the access key and secret for the `developer` role
+   - Region: `us-east-1`
+   - Format: `text`
+1. Install NodeJS: https://nodejs.org/en/download
+1. Install Angular CLI: `npm i -g @angular/cli`
 
-This is a blank project for TypeScript development with CDK.
+## Create new API
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+## Update your personal lambda

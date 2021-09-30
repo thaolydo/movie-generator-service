@@ -1,8 +1,10 @@
-import { CfnOutput, Construct, Stack, StackProps } from "@aws-cdk/core";
+import { Construct, Stack, StackProps } from "@aws-cdk/core";
 import { StageConfig } from "../stage-config";
 
 import * as path from 'path';
 import { NodejsFunction } from "@aws-cdk/aws-lambda-nodejs";
+import { CorsHttpMethod, HttpApi, HttpMethod } from "@aws-cdk/aws-apigatewayv2";
+import { LambdaProxyIntegration } from "@aws-cdk/aws-apigatewayv2-integrations";
 
 export class LambdaStack extends Stack {
 
@@ -24,6 +26,22 @@ export class LambdaStack extends Stack {
             bundling: {
                 sourceMap: true
             },
+        });
+
+        const helloWorldApi = new HttpApi(this, `hello-world-api-${stageName}`, {
+            apiName: `HelloWorldHttpApi-${this.stageConfig.stageName}`,
+            corsPreflight: {
+                allowOrigins: ['*'],
+                allowMethods: [CorsHttpMethod.GET, CorsHttpMethod.POST, CorsHttpMethod.DELETE, CorsHttpMethod.PUT],
+                allowHeaders: ['*'],
+                exposeHeaders: ['*']
+            },
+        });
+
+        helloWorldApi.addRoutes({
+            path: '/',
+            methods: [HttpMethod.GET],
+            integration: new LambdaProxyIntegration({ handler: helloWorldLambda }),
         });
 
     }

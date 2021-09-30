@@ -1,3 +1,5 @@
+import 'source-map-support/register';
+
 export const handler = async (handlerInput: any) => {
     console.info("HelloWorld lambda was invoked by API Gateway with input:", JSON.stringify(handlerInput));
 
