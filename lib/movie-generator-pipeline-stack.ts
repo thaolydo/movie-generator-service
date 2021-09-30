@@ -30,7 +30,7 @@ export class MovieGeneratorPipelineStack extends cdk.Stack {
             const appStage = new MovieGeneratorService(this, `movie-generator-service-${stageConfig.stageName}`, stageConfig, {
                 env: {
                     account: stageConfig.accountId,
-                    region: 'us-east-1'
+                    region: 'us-west-1'
                 },
             });
 
