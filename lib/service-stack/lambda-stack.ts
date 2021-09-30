@@ -17,18 +17,15 @@ export class LambdaStack extends Stack {
 
         const stageName = stageConfig.stageName;
 
-        // const helloWorldLambda = new NodejsFunction(this, `hello-world-lambda-${stageName}`, {
-        //     functionName: `HelloWorld-${stageName}`,
-        //     handler: 'handler',
-        //     entry: path.join(LambdaStack.SOURCE_DIR, 'handler', 'hello-world.handler.ts'),
-        //     bundling: {
-        //         sourceMap: true
-        //     },
-        // });
-
-        new CfnOutput(this, `tmp`, {
-            value: 'ly',
+        const helloWorldLambda = new NodejsFunction(this, `hello-world-lambda-${stageName}`, {
+            functionName: `HelloWorld-${stageName}`,
+            handler: 'handler',
+            entry: path.join(LambdaStack.SOURCE_DIR, 'handler', 'hello-world.handler.ts'),
+            bundling: {
+                sourceMap: true
+            },
         });
+
     }
 
 }
