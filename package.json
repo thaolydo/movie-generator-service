@@ -33,10 +33,9 @@
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "i": "^0.3.7",
     "jsonwebtoken": "^8.5.1",
     "npm": "^7.24.1",
     "source-map-support": "^0.5.16",
-    "uuid": "^8.3.2"
+    "uuidv4": "^6.2.12"
   }
 }
