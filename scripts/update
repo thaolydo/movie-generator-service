@@ -27,7 +27,7 @@ rm -rf "$zipFile"
 filePath=$(find src -name "$handlerFileName.handler.ts")
 
 # Build the handler to index.js
-./node_modules/esbuild/bin/esbuild --bundle "$filePath" --outfile="$outFile" --platform=node
+./node_modules/esbuild/bin/esbuild --bundle "$filePath" --outfile="$outFile" --platform=node --sourcemap
 
 # Zip file for uploading to lambda
 zip -j "$zipFile" "$outFile"
