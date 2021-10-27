@@ -6,8 +6,7 @@
     "update": "scripts/update",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk",
-    "devStart": "nodemon server.js"
+    "cdk": "cdk"
   },
   "devDependencies": {
     "@aws-cdk/assert": "^1.125.0",
@@ -17,7 +16,6 @@
     "aws-cdk": "^1.125.0",
     "esbuild": "^0.13.3",
     "jest": "^26.4.2",
-    "nodemon": "^2.0.13",
     "ts-jest": "^26.2.0",
     "ts-node": "^9.0.0",
     "typescript": "~3.9.7"
@@ -30,13 +28,8 @@
     "@aws-cdk/core": "^1.125.0",
     "@aws-cdk/pipelines": "^1.125.0",
     "aws-sdk": "^2.999.0",
-    "bcrypt": "^5.0.1",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "i": "^0.3.7",
-    "jsonwebtoken": "^8.5.1",
     "npm": "^7.24.1",
     "source-map-support": "^0.5.16",
-    "uuid": "^8.3.2"
+    "uuidv4": "^6.2.12"
   }
 }

@@ -104,6 +104,4 @@ dist
 .tern-port
 
 cdk.out
-
-*.js
 *.d.ts
