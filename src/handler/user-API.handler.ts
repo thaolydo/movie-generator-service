@@ -1,16 +1,20 @@
-const { uuid } = require('uuidv4');
+import { v4 as uuidv4 } from 'uuid';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 
-const aws = require('aws-sdk');
-const dynamo = new aws.DyanmoDB.DocumentClient();
-const TABLE_NAME = 'users';
-
-exports.handler = async (event: any) => {
+export const handler = async (event: any) => {
+  const dynamo = new DynamoDB.DocumentClient({
+    apiVersion: '2012-08-10',
+    region: 'us-west-1',
+  });
+  const TABLE_NAME = 'users';
   let statusCode = 200;
   let body: any;
   const headers = {
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   };
 
+  console.log(event.routeKey);
   try {
     switch (event.routeKey) {
       // generates a token, or a random password that the user will use as a temporary password
@@ -25,8 +29,8 @@ exports.handler = async (event: any) => {
           .promise();
         // generates a token if there exists a user in the user table
         if (user) {
-          let token = uuid.v4();
-          body.token = token;
+          const token: string = uuidv4();
+          body = token;
         }
         break;
       case 'DELETE /users/{id}':
@@ -51,15 +55,13 @@ exports.handler = async (event: any) => {
           .promise();
         break;
       case 'GET /users':
-        body = await dynamo.scan({
-          TableName: TABLE_NAME,
-        });
+        body = await dynamo.scan({ TableName: TABLE_NAME }).promise();
         break;
       case 'PUT /users':
         let req = JSON.parse(event.body);
         // if it is a new user then no id has been generated. this method
         if (!req.id) {
-          req.id = uuid.v4();
+          req.id = uuidv4();
         }
         await dynamo
           .put({
@@ -80,12 +82,12 @@ exports.handler = async (event: any) => {
     statusCode = 400;
     body = err.message;
   } finally {
-    body = JSON.stringify(body);
+    console.info(body);
   }
 
   return {
     statusCode,
-    body,
     headers,
+    body: JSON.stringify(body),
   };
 };
