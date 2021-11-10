@@ -63,9 +63,11 @@ export const UserAccessor = async (event: any) => {
           .put({
             TableName: TABLE_NAME,
             Item: {
-              name: req.name,
+              firstName: req.firstName,
+              lastName: req.lastName,
               id: req.id,
               email: req.email,
+              watchlist: req.watchlist,
             },
           })
           .promise();
