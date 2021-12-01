@@ -52,6 +52,9 @@ export class LambdaStack extends Stack {
             bundling: {
                 sourceMap: true
             },
+            environment: {
+                STAGE_NAME: stageName
+            }
         });
         const addToWatchlistLambda = new NodejsFunction(this, `add-to-watchlist-lambda-${stageName}`, {
             functionName: `AddToWatchlist-${stageName}`,
@@ -60,6 +63,9 @@ export class LambdaStack extends Stack {
             bundling: {
                 sourceMap: true
             },
+            environment: {
+                STAGE_NAME: stageName
+            }
         });
         const removeFromWatchlistLambda = new NodejsFunction(this, `remove-from-watchlist-lambda-${stageName}`, {
             functionName: `RemoveFromWatchlist-${stageName}`,
@@ -68,6 +74,9 @@ export class LambdaStack extends Stack {
             bundling: {
                 sourceMap: true
             },
+            environment: {
+                STAGE_NAME: stageName
+            }
         });
 
         const watchlistApi = new HttpApi(this, `watchlist-api-${stageName}`, {
