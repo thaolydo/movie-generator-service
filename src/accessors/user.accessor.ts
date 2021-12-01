@@ -76,7 +76,7 @@ export const UserAccessor = async (event: any) => {
       default:
         throw new Error(`Unsupported route "${event.routeKey}""`);
     }
-  } catch (err: any) {
+  } catch (err) {
     statusCode = 400;
     body = err.message;
   } finally {
