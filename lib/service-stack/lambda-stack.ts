@@ -44,6 +44,58 @@ export class LambdaStack extends Stack {
             integration: new LambdaProxyIntegration({ handler: helloWorldLambda }),
         });
 
+        // Watchlist API
+        const getWatchlistLambda = new NodejsFunction(this, `get-watchlist-lambda-${stageName}`, {
+            functionName: `GetWatchlist-${stageName}`,
+            handler: 'handler',
+            entry: path.join(LambdaStack.SOURCE_DIR, 'handler', 'get-watchlist.handler.ts'),
+            bundling: {
+                sourceMap: true
+            },
+        });
+        const addToWatchlistLambda = new NodejsFunction(this, `add-to-watchlist-lambda-${stageName}`, {
+            functionName: `AddToWatchlist-${stageName}`,
+            handler: 'handler',
+            entry: path.join(LambdaStack.SOURCE_DIR, 'handler', 'add-to-watchlist.handler.ts'),
+            bundling: {
+                sourceMap: true
+            },
+        });
+        const removeFromWatchlistLambda = new NodejsFunction(this, `remove-from-watchlist-lambda-${stageName}`, {
+            functionName: `RemoveFromWatchlist-${stageName}`,
+            handler: 'handler',
+            entry: path.join(LambdaStack.SOURCE_DIR, 'handler', 'remove-from-watchlist.handler.ts'),
+            bundling: {
+                sourceMap: true
+            },
+        });
+
+        const watchlistApi = new HttpApi(this, `watchlist-api-${stageName}`, {
+            apiName: `Watchlist-${this.stageConfig.stageName}`,
+            corsPreflight: {
+                allowOrigins: ['*'],
+                allowMethods: [CorsHttpMethod.GET, CorsHttpMethod.POST, CorsHttpMethod.DELETE],
+                allowHeaders: ['*'],
+                exposeHeaders: ['*']
+            },
+        });
+
+        watchlistApi.addRoutes({
+            path: '/',
+            methods: [HttpMethod.GET],
+            integration: new LambdaProxyIntegration({ handler: getWatchlistLambda }),
+        });
+        watchlistApi.addRoutes({
+            path: '/',
+            methods: [HttpMethod.POST],
+            integration: new LambdaProxyIntegration({ handler: addToWatchlistLambda }),
+        });
+        watchlistApi.addRoutes({
+            path: '/',
+            methods: [HttpMethod.DELETE],
+            integration: new LambdaProxyIntegration({ handler: removeFromWatchlistLambda }),
+        });
+
     }
 
 }
